@@ -14,3 +14,16 @@ def InstaStats(username):
 		return (followers,following,posts)
 	except:
 		return "Что то пошло не так"
+def Translate(w,l):
+	try:
+		cyrilic=("й","ц","у","к","е","н","г","ш","щ","з","х","ъ","ф","ы","в","а","п","р","о","л","д","ж","э","я","ч","с","м","и","т","ь","б","ю")
+		url="https://google.com/search?q={}"
+		r="перевод {0} на {1}".format(w,l[:-2]+"ом")
+		request=requests.get(url.format(r))
+		soup=BeautifulSoup(request.text,"html.parser")
+		translate=soup.find("div",class_="AP7Wnd")
+		if len(translate.text.split())>4 or translate.text=="Зображення" or translate.text[0] in cyrilic:
+			raise Exception("Error")
+		return translate.text
+	except:
+		return "Что то пошло не так"
